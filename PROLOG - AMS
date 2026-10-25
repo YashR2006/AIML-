@@ -1,0 +1,100 @@
+% AIRPORT MANAGEMENT SYSTEM
+
+% Airport information
+airport(pun,pune).
+airport(bom,mumbai).
+airport(del,delhi).
+airport(blr,bangalore).
+airport(hyd,hyderabad).
+airport(goi,goa).
+
+% Airline information
+airline(ai,air_india).
+airline(indigo,indigo_airlines).
+airline(sg,spicejet).
+airline(uk,vistara).
+
+% Flight information
+flight(ai101,ai,del,bom,morning,on_time).
+flight(ai102,ai,bom,pun,afternoon,on_time).
+flight(ai103,ai,pun,del,evening,delayed).
+
+flight(ind201,indigo,pun,bom,morning,on_time).
+flight(ind202,indigo,bom,blr,afternoon,delayed).
+flight(ind203,indigo,blr,hyd,evening,on_time).
+
+flight(sg301,sg,pun,del,morning,on_time).
+flight(sg302,sg,del,hyd,afternoon,delayed).
+flight(sg303,sg,hyd,goi,evening,cancelled).
+
+flight(uk401,uk,bom,blr,morning,on_time).
+flight(uk402,uk,blr,bom,evening,on_time).
+
+% Passenger information
+passenger(rahul,22).
+passenger(priya,21).
+passenger(amit,35).
+passenger(neha,28).
+passenger(rohan,45).
+passenger(pooja,30).
+
+% Ticket information
+ticket(rahul,ind201,economy,4500).
+ticket(priya,ai101,economy,5200).
+ticket(amit,uk401,business,12000).
+ticket(neha,sg301,economy,4000).
+ticket(rohan,ai103,business,13500).
+ticket(pooja,sg302,economy,4800).
+
+% Gate information
+gate(ai101,gate1).
+gate(ai102,gate2).
+gate(ai103,gate3).
+gate(ind201,gate4).
+gate(ind202,gate5).
+gate(ind203,gate6).
+gate(sg301,gate7).
+gate(sg302,gate8).
+gate(sg303,gate9).
+gate(uk401,gate10).
+gate(uk402,gate11).
+
+% Find passenger's flight
+passenger_flight(P,F) :-
+    ticket(P,F,_,_).
+
+% Find airline of flight
+flight_airline(F,A) :-
+    flight(F,Code,_,_,_,_),
+    airline(Code,A).
+
+% Find flight status
+flight_status(F,S) :-
+    flight(F,_,_,_,_,S).
+
+% Find flights between two airports
+flight_between(Source,Destination,F) :-
+    flight(F,_,Source,Destination,_,_).
+
+% Find passenger's destination
+passenger_destination(P,D) :-
+    ticket(P,F,_,_),
+    flight(F,_,_,D,_,_).
+
+% Find passenger's gate
+passenger_gate(P,G) :-
+    ticket(P,F,_,_),
+    gate(F,G).
+
+% Check whether passenger can board
+can_board(P) :-
+    ticket(P,F,_,_),
+    flight(F,_,_,_,_,on_time).
+
+% Find delayed flights
+delayed(F) :-
+    flight(F,_,_,_,_,delayed).
+
+% Find cancelled flights
+cancelled(F) :-
+    flight(F,_,_,_,_,cancelled).
